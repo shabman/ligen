@@ -19,6 +19,7 @@
 #include "disk/file.h"
 #include "disk/path.h"
 #include "gen/parse.h"
+#include <iostream>
 
 using namespace ligen2;
 
@@ -34,7 +35,9 @@ ligen2::execute ( int argc, char* argv[] )
   std::string license = p.get_license ();
   std::string ignore = p.get_ignore ();
   std::string allow = p.get_allow ();
+
   int width = p.get_width ();
+  std::vector<std::vector<std::string>> files {};
 
   if ( license.empty () )
     {
@@ -61,9 +64,12 @@ ligen2::execute ( int argc, char* argv[] )
           result.cause = "ignore must be a directory";
           return result;
         }
+      files = read_all ( allow, &ignore );
     }
-
-  std::vector<std::string> files = read_all ( allow );
+  else
+    {
+      files = read_all ( allow, nullptr );
+    }
 
   result.succeeded = true;
   return result;
