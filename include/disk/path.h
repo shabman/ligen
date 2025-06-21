@@ -18,12 +18,20 @@
 #ifndef _LIGEN2_DISK_PATH_H_
 #define _LIGEN2_DISK_PATH_H_
 
+#include <iostream>
+#include <map>
 #include <vector>
+
+#define LIGEN_ADD_IF( dest, src ) \
+  if ( !src.empty () )            \
+    {                             \
+      dest.push_back ( src );     \
+    }
 
 namespace ligen2
 {
 
-[[nodiscard]] std::vector<std::string> read_all ( const std::string& );
+[[nodiscard]] std::vector<std::vector<std::string>> read_all ( const std::string&, const std::string* );
 
 [[nodiscard]] bool is_valid_dir ( const std::string& );
 
