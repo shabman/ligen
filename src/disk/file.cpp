@@ -16,8 +16,6 @@
  */
 
 #include "disk/file.h"
-#include <exception>
-#include <sstream>
 
 namespace ligen2
 {
@@ -70,9 +68,25 @@ file::fext ( const std::string& file ) noexcept
 }
 
 bool
-file::write ( const std::string& data )
+file::write ( const std::vector<std::string>& data )
 {
-  throw std::runtime_error ( "Not implemented" );
+  if ( data.empty () )
+    {
+      return false;
+    }
+
+  std::ofstream out ( m_path );
+
+  if ( !out.is_open () )
+    {
+      return false;
+    }
+
+  std::ostream_iterator<std::string> oit ( out );
+  std::copy ( std::begin ( data ), std::end ( data ), oit );
+
+  out.close ();
+  return true;
 }
 
 }

@@ -22,10 +22,10 @@
 
 using namespace ligen2;
 
-std::vector<std::vector<std::string>>
+path_buffer
 ligen2::read_all ( const std::string& path, const std::string* exclude )
 {
-  std::vector<std::vector<std::string>> buffer {};
+  path_buffer buffer {};
 
   if ( path.empty () )
     {
@@ -46,20 +46,19 @@ ligen2::read_all ( const std::string& path, const std::string* exclude )
 
           if ( exclude )
             {
-              // WHAT THE FUCK IS THIS????? (this is gonna give me a headache if this bites my ass)
               std::string parent = path.parent_path ().string ().substr ( path.parent_path ().string ().find_last_of ( "/" ) + 1 );
               std::string n_excldue = exclude->substr ( exclude->find_last_of ( "/" ) + 1 );
 
               if ( n_excldue != parent )
                 {
                   std::vector<std::string> contents = f.read ();
-                  LIGEN_ADD_IF ( buffer, contents )
+                  LIGEN_ADD ( path.string (), buffer, contents )
                 }
             }
           else
             {
               std::vector<std::string> contents = f.read ();
-              LIGEN_ADD_IF ( buffer, contents )
+              LIGEN_ADD ( path.string (), buffer, contents )
             }
         }
     }

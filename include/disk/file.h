@@ -38,7 +38,7 @@ private:
 
 public:
   [[nodiscard]] std::vector<std::string> read ();
-  [[maybe_unused]] bool write ( const std::string& );
+  [[maybe_unused]] bool write ( const std::vector<std::string>& );
   [[nodiscard]] static std::string fext ( const std::string& ) noexcept;
 
 private:

@@ -15,19 +15,38 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ligen2.h"
-#include "termcolor.h"
+#ifndef _LIGEN2_GEN_INJECT_H_
+#define _LIGEN2_GEN_INJECT_H_
 
-int
-main ( int argc, char* argv[] )
+#include "disk/path.h"
+
+namespace ligen2
 {
-  ligen2::ligen_result_t exec = ligen2::execute ( argc, argv );
-  if ( !exec.succeeded )
-    {
-      PRINT_LOG ( "error", exec.cause )
-      exit ( EXIT_FAILURE );
-    }
 
-  PRINT_LOG ( "log", "successfully injected license header" );
-  return EXIT_SUCCESS;
+class injector final
+{
+public:
+  explicit injector ( const path_buffer&, const std::string&, const int );
+  ~injector ();
+
+private:
+  injector& operator= ( const injector& ) = delete;
+  injector ( const injector& ) = delete;
+  injector ( const injector&& ) = delete;
+
+private:
+  void insert_file ( const std::string&, const std::vector<std::string>& );
+  bool has_header ( const std::string& ) const noexcept;
+
+public:
+  void insert_all ();
+
+private:
+  path_buffer m_buffer;
+  std::vector<std::string> m_license_contents;
+  int m_width;
+};
+
 }
+
+#endif /* _LIGEN2_GEN_INJECT_H_ */

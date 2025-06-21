@@ -18,8 +18,9 @@
 #include "ligen2.h"
 #include "disk/file.h"
 #include "disk/path.h"
+#include "gen/inject.h"
 #include "gen/parse.h"
-#include <iostream>
+#include "termcolor.h"
 
 using namespace ligen2;
 
@@ -37,7 +38,7 @@ ligen2::execute ( int argc, char* argv[] )
   std::string allow = p.get_allow ();
 
   int width = p.get_width ();
-  std::vector<std::vector<std::string>> files {};
+  path_buffer files {};
 
   if ( license.empty () )
     {
@@ -70,6 +71,22 @@ ligen2::execute ( int argc, char* argv[] )
     {
       files = read_all ( allow, nullptr );
     }
+
+  int proceed;
+  PRINT_LOG ( "warn", "All files inside: " << allow << " will be injected with license headers, do you wish to continue? (yes = 1, no = 0) >>> " )
+  std::cin >> proceed;
+  std::cout << "\n";
+
+  if ( !proceed )
+    {
+      std::cout << "aborting...\n";
+      exit ( EXIT_SUCCESS );
+    }
+
+  std::cout << "injecting...\n";
+
+  injector inject ( files, license, width );
+  inject.insert_all ();
 
   result.succeeded = true;
   return result;

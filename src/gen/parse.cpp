@@ -16,8 +16,7 @@
  */
 
 #include "gen/parse.h"
-#include <charconv>
-#include <iostream>
+#include <termcolor.h>
 
 static bool
 is_number ( const std::string& s )
@@ -72,7 +71,7 @@ parser::parse_all_input () noexcept
                     }
                   else
                     {
-                      std::cout << "[LIGEN WARNING]: invalid operand provided, defaulting to 1 width space\n";
+                      PRINT_LOG ( "warn", "invalid operand provided, defaulting to 1 width space" )
                     }
                 }
             }
@@ -81,7 +80,7 @@ parser::parse_all_input () noexcept
 
   if ( m_width < 0 || m_width == -1 || m_width > 4 )
     {
-      std::cout << "[LIGEN WARNING]: invalid width argument provided, defaulting to 1 width space\n";
+      PRINT_LOG ( "warn", "invalid width argument provided, defaulting to 1 width space" )
       m_width = 1;
     }
 

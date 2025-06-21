@@ -22,16 +22,17 @@
 #include <map>
 #include <vector>
 
-#define LIGEN_ADD_IF( dest, src ) \
-  if ( !src.empty () )            \
-    {                             \
-      dest.push_back ( src );     \
-    }
+#define LIGEN_ADD( path, dest, src )                      \
+  std::map<std::string, std::vector<std::string>> buf {}; \
+  buf.emplace ( path, src );                              \
+  dest.push_back ( buf );
 
 namespace ligen2
 {
 
-[[nodiscard]] std::vector<std::vector<std::string>> read_all ( const std::string&, const std::string* );
+typedef std::vector<std::map<std::string, std::vector<std::string>>> path_buffer;
+
+[[nodiscard]] path_buffer read_all ( const std::string&, const std::string* );
 
 [[nodiscard]] bool is_valid_dir ( const std::string& );
 
