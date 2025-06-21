@@ -22,10 +22,10 @@
 
 using namespace ligen2;
 
-std::vector<std::string>
-ligen2::read_all ( const std::string& path )
+std::vector<std::vector<std::string>>
+ligen2::read_all ( const std::string& path, const std::string* exclude )
 {
-  std::vector<std::string> contents {};
+  std::vector<std::vector<std::string>> buffer {};
 
   if ( path.empty () )
     {
@@ -43,18 +43,28 @@ ligen2::read_all ( const std::string& path )
       if ( !ligen2::is_valid_dir ( path ) )
         {
           file f ( path.string () );
-          std::vector<std::string> contents = f.read ();
 
-          std::cout << "------------------------------\n";
-          for ( const std::string& line : contents )
+          if ( exclude )
             {
-              std::cout << line << "\n";
+              // WHAT THE FUCK IS THIS????? (this is gonna give me a headache if this bites my ass)
+              std::string parent = path.parent_path ().string ().substr ( path.parent_path ().string ().find_last_of ( "/" ) + 1 );
+              std::string n_excldue = exclude->substr ( exclude->find_last_of ( "/" ) + 1 );
+
+              if ( n_excldue != parent )
+                {
+                  std::vector<std::string> contents = f.read ();
+                  LIGEN_ADD_IF ( buffer, contents )
+                }
             }
-          std::cout << "------------------------------\n";
+          else
+            {
+              std::vector<std::string> contents = f.read ();
+              LIGEN_ADD_IF ( buffer, contents )
+            }
         }
     }
 
-  return contents;
+  return buffer;
 }
 
 [[nodiscard]] bool
