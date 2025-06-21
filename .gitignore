@@ -1,0 +1,5 @@
+.vscode
+build
+features.txt
+format.sh
+.DS_Store
