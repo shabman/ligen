@@ -3,18 +3,18 @@
 Ligen is a small tool that injects LICENSE headers into source files.  
 It was mainly built for C and C++ projects, but it should work with other languages too (not guaranteed).
 
-## what it does
+## What it does
 
 It takes a license header from a file and adds it to the top of source files in a directory.  
 You can choose which directories to allow or ignore, and set how wide the spacing is between the `*` characters in the comment block.
 
-## usage
+## Usage
 
 ```bash
 ligen --license ./header.txt --allow ./src --ignore ./src/thirdparty --width 1
 ```
 
-### flags
+### Flags
 
 - `--license`  
   path to the LICENSE header you want to use (text file) (REQUIRED)
@@ -28,7 +28,7 @@ ligen --license ./header.txt --allow ./src --ignore ./src/thirdparty --width 1
 - `--width`  
   spacing between the `*` in the comment block (optional) (OPTIONAL) (DEFAULT = 1)
 
-## example
+## Example
 
 If you have a `header.txt` like:
 
@@ -52,18 +52,18 @@ Then every C/C++ file in `./project` (except in `./project/vendor`) will get a c
  */
 ```
 
-## notes
+## Notes
 
 - Only tested with `.c`, `.cpp`, `.h`, `.hpp` files
 - Doesn’t modify files that already have a comment at the start or an existing header
 - Won’t touch files in ignored directories
 - Doesn’t format or parse code, it just prepends text
 
-## why
+## Why
 
 I needed something small to add headers to C/C++ codebases without messing around with big tools or scripts.  
 This does the job with a single command.
 
-## license
+## License
 
 GNU GPLv3
